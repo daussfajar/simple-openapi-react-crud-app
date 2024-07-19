@@ -1,4 +1,3 @@
-// src/pages/Login.js
 import React, { useState } from 'react';
 import FormInput from '../components/FormInput';
 import Button from '../components/Button';
