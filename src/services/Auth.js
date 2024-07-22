@@ -1,9 +1,12 @@
 import axios from "axios";
 import { json } from "react-router-dom";
+import config from '../config';
 
 const API_URL = "http://localhost:4000/api/v1/";
 
 const loginUser = async (email, password) => {
+    const { API_KEY, X_API_KEY } = config;
+
     try {
         email = email.trim();
         password = password.trim();
@@ -14,6 +17,8 @@ const loginUser = async (email, password) => {
         }, {
             headers: {
                 "Content-Type": "application/json",
+                "api-key": API_KEY,
+                "x-api-key": X_API_KEY,
             },
             withCredentials: false,
         });

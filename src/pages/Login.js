@@ -3,6 +3,7 @@ import FormInput from '../components/FormInput';
 import Button from '../components/Button';
 import '../assets/css/Login.css';
 import loginUser from '../services/Auth';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,23 +18,47 @@ const Login = () => {
     password = password.trim();
 
     if (!email || !password) {
-      alert('Please enter email and password');
-      return;
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter your email and password',
+      });
     }
 
     try {
-      const response = await loginUser(email, password);
-      
-      if(response.status !== 200) {
-        alert(response.message)
+      const response = await loginUser(email, password);      
+
+      if (response.status !== 200) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: response.message || 'An error occurred',
+        });
         setPassword('');
+        return;
       } else {
-        alert(response.message);
-        window.location.href = '/product';
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.message || 'Login successful',
+        }).then(() => {
+          window.location.href = '/dashboard';
+        });
       }
     } catch (error) {
-      alert('An error occurred. Please try again later');
-      console.error('An error occurred:', error);
+      if (error.response) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data.message || 'An error occurred',
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred',
+        });
+      }
     }
   };
 
