@@ -71,8 +71,8 @@ const Login = () => {
               <div className="p-5" style={{ paddingTop: '20px' }}>
                 <div className="text-center">
                   <img src={mainlogo} alt="Logo" style={{ width: '200px', height: 'auto', display: 'block', margin: '0 auto' }} />
-                  <h1 className="h4 text-black mb-4 mt-3">Welcome Back!</h1>
-                  <p className="text-muted" style={{ fontSize: 14 }}>
+                  <h1 className="h4 text-black mb-4 mt-3" style={{color: 'black', fontWeight: '400'}}>Welcome Back!</h1>
+                  <p style={{ fontSize: 14, color: 'black' }}>
                     Login to access your dashboard. If you are not a member,
                     please contact the administrator.
                   </p>
