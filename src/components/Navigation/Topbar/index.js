@@ -42,7 +42,6 @@ const Topbar = () => {
                     text: 'You have been logged out',
                     icon: 'success',
                     showConfirmButton: false,
-                    timer: 1500,
                 }).then(() => {
                     Cookies.remove('token');
                     Cookies.remove('fullname');

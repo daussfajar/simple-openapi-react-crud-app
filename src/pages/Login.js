@@ -5,16 +5,26 @@ import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import mainlogo from '../assets/img/mainlogo.png';
+import axiosInstance from '../utils/axiosInstance';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // check if user is already logged in
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      navigate('/dashboard');
+      axiosInstance.get('verify-token')
+        .then(() => {
+          navigate('/dashboard');
+        })
+        .catch(() => {
+          Cookies.remove('token');
+          Cookies.remove('fullname');
+          Cookies.remove('email');
+        });
     }
   }, [navigate]);
 
@@ -46,10 +56,11 @@ const Login = () => {
           title: 'Success',
           text: response.message || 'Login successful',
         }).then(() => {
+          const expires = 5/24;
           const token = response.data.token;
-          Cookies.set('token', token, { expires: 1 });
-          Cookies.set('fullname', response.data.fullname, { expires: 1 });
-          Cookies.set('email', response.data.email, { expires: 1 });
+          Cookies.set('token', token, { expires: expires });
+          Cookies.set('fullname', response.data.fullname, { expires: expires });
+          Cookies.set('email', response.data.email, { expires: expires });
           navigate('/dashboard');
         });
       }
