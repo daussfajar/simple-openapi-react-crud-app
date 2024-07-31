@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { clickMenuOpen } from '../../../redux/actions';
-import mainlogo from '../../../assets/img/mainlogo.png';
+// import mainlogo from '../../../assets/img/mainlogo.png';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -16,11 +16,11 @@ const Sidebar = () => {
     <ul className={toggled ? 'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled' : 'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion'} id="accordionSidebar">
       {/* <!-- Sidebar - Brand --> */}
       <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
-        <div className="sidebar-brand-icon rotate-n-15">
-          <i className="fas fa-code"></i>
+        <div className="sidebar-brand-icon">
+          <i className="fas fa-store"></i>
         </div>
         <div className="sidebar-brand-text mx-3">
-          CRUD APP
+          MY STORE
         </div>
       </a>
 
@@ -53,10 +53,10 @@ const Sidebar = () => {
         </a>
         <div id="collapseTwo" className='collapse' aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div className="bg-white py-2 collapse-inner rounded">
-            <a className="collapse-item" href="buttons.html">
-              Products
-            </a>
-            <Link className="collapse-item" to="/cards">
+            <Link className="collapse-item" to="/product">
+              Product
+            </Link>
+            <Link className="collapse-item" to="/product-categories">
               Product Categories
             </Link>
           </div>

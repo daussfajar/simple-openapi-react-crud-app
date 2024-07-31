@@ -6,6 +6,8 @@ import ProtectedRoute from './components/My/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Product from './pages/Product';
+import AddProduct from './pages/AddProduct';
 
 const MainRoutes = () => {
     return (
@@ -17,6 +19,22 @@ const MainRoutes = () => {
                     element={
                         <ProtectedRoute>
                             <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/product"
+                    element={
+                        <ProtectedRoute>
+                            <Product />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/product/add"
+                    element={
+                        <ProtectedRoute>
+                            <AddProduct />
                         </ProtectedRoute>
                     }
                 />
