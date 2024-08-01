@@ -121,16 +121,16 @@ const Product = () => {
                                         </div>
                                         <div className="table-responsive">
                                             <table className="table table-bordered" width="100%" cellSpacing="0">
-                                                <thead>
+                                                <thead className='bg-primary text-white'>
                                                     <tr>
-                                                        <th className='text-center'>No</th>
-                                                        <th>Product Name</th>
-                                                        <th>Description</th>
-                                                        <th>Brand</th>
-                                                        <th>Category</th>
-                                                        <th>Price</th>
-                                                        <th>SKU</th>
-                                                        <th className='text-center'>Actions</th>
+                                                        <th className='text-center v-middle'>No</th>
+                                                        <th className='v-middle'>Product Name</th>
+                                                        <th className='v-middle'>Description</th>
+                                                        <th className='v-middle'>Brand</th>
+                                                        <th className='v-middle'>Category</th>
+                                                        <th className='v-middle'>Price</th>
+                                                        <th className='v-middle'>SKU</th>
+                                                        <th className='text-center v-middle'>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -148,10 +148,10 @@ const Product = () => {
                                                                 <td className='v-middle'>{product.category_name}</td>
                                                                 <td className='v-middle'>{product.price}</td>
                                                                 <td className='v-middle'>{product.sku}</td>
-                                                                <td className='text-center v-middle'>
-                                                                    <a href={`/product/edit/${product.id}`} className='btn btn-sm btn-warning'>
-                                                                        <i className='fas fa-pencil'></i>
-                                                                    </a>
+                                                                <td className='text-center v-middle' width={100}>
+                                                                    <Link to={`/product/edit/${product.id}`} className='btn btn-sm btn-warning'>
+                                                                        <i className='fas fa-edit'></i>
+                                                                    </Link>
                                                                     &nbsp;
                                                                     <button className='btn btn-sm btn-danger ms-2' onClick={() => handleDelete(product.id, product.title)}>
                                                                         <i className='fas fa-trash'></i>
@@ -168,32 +168,41 @@ const Product = () => {
                                             </table>
                                             <nav>
                                                 <ul className="pagination justify-content-center">
-                                                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                                        <button className="page-link" onClick={() => handlePageChange(1)}>First</button>
+                                                    <li className={`page-item ${currentPage === 1 || totalPages === 0 ? 'disabled' : ''}`}>
+                                                        <button className="page-link" onClick={() => handlePageChange(1)} disabled={currentPage === 1 || totalPages === 0}>
+                                                            First
+                                                        </button>
                                                     </li>
-                                                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                                        <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
+                                                    <li className={`page-item ${currentPage === 1 || totalPages === 0 ? 'disabled' : ''}`}>
+                                                        <button className="page-link" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1 || totalPages === 0}>
+                                                            Previous
+                                                        </button>
                                                     </li>
                                                     {getPageButtons().map((page, index) => (
                                                         <li
                                                             key={index}
-                                                            className={`page-item ${currentPage === page ? 'active' : ''}`}
+                                                            className={`page-item ${currentPage === page ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}
                                                         >
                                                             <button
                                                                 className="page-link"
                                                                 onClick={() => {
                                                                     if (page !== '...') handlePageChange(page);
                                                                 }}
+                                                                disabled={page === '...'}
                                                             >
                                                                 {page}
                                                             </button>
                                                         </li>
                                                     ))}
-                                                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                                        <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</button>
+                                                    <li className={`page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}>
+                                                        <button className="page-link" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages || totalPages === 0}>
+                                                            Next
+                                                        </button>
                                                     </li>
-                                                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                                        <button className="page-link" onClick={() => handlePageChange(totalPages)}>Last</button>
+                                                    <li className={`page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}>
+                                                        <button className="page-link" onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages || totalPages === 0}>
+                                                            Last
+                                                        </button>
                                                     </li>
                                                 </ul>
                                             </nav>

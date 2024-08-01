@@ -1,24 +1,39 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 // Navigation
 import Sidebar from '../components/Navigation/Sidebar';
 import Topbar from '../components/Navigation/Topbar';
 
 import Footer from '../components/Footer/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import {addProduct} from '../services/ProductService';
+import {addProduct, fetchProductCategories, fetchProductBrands} from '../services/ProductService';
 
 // SweetAlert
 import Swal from 'sweetalert2';
 
 const AddProduct = () => {
+    const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [category, setCategory] = useState('');
-    const [brand, setBrand] = useState('');
+    const [sku, setSku] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleChangeCategory = (event) => {
+        const { value } = event.target;
+        setSelectedCategory(value);
+    };
+
+    const handleChangeBrand = (event) => {
+        const { value } = event.target;
+        setSelectedBrand(value);
+    };
 
     const handleChangePrice = (event) => {
         const { value } = event.target;
@@ -33,10 +48,30 @@ const AddProduct = () => {
         setQuantity(numericValue);
     }
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const data = await fetchProductCategories();
+            if (data) {
+                setCategories(data);
+            }
+        }
+
+        const fetchBrands = async () => {
+            const data = await fetchProductBrands();
+            if (data) {
+                setBrands(data);
+            }
+        }
+
+        fetchCategories();
+        fetchBrands();
+    }, []);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         
-        if (!title || !description || !price || !quantity || !category || !brand) {
+        if (!title || !description || !price || !quantity || !selectedCategory || !selectedBrand) {
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -48,27 +83,30 @@ const AddProduct = () => {
             title,
             description,
             price,
-            quantity,
-            category,
-            brand
+            stock: quantity,
+            category_id: selectedCategory,
+            brand_id: selectedBrand,
+            sku
         };
 
         const response = await addProduct(data);
         if (response) {
-            return Swal.fire({
+            Swal.fire({
                 icon: 'success',
                 title: 'Success',
                 text: 'Product added successfully',
             }).then(() => {
-                Link.to('/product');
+                navigate('/product');
             });
         } else {
-            return Swal.fire({
+            Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Something went wrong!',
             });
         }
+
+        setLoading(false);
     };
 
     return (
@@ -94,21 +132,27 @@ const AddProduct = () => {
                                         <div className="card-body">                                    
                                             <div className="form-group">
                                                 <label htmlFor="title">Product Title</label>
-                                                <input type="text" className="form-control" id="title" placeholder='Enter product title' />
+                                                <input type="text" className="form-control" id="title" placeholder='Enter product title' onChange={(e) => {
+                                                    setTitle(e.target.value);                                                    
+                                                }} />
                                             </div>
                                             <div className="row">
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="category">Category</label>
-                                                    <select id="category" className="form-control">
-                                                        <option selected>Choose...</option>
-                                                        <option>...</option>
+                                                    <select id="category" className="form-control" onChange={handleChangeCategory}>
+                                                        <option value={''}>Choose...</option>
+                                                        {categories.map((category) => (
+                                                            <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="brand">Brand</label>
-                                                    <select id="brand" className="form-control">
-                                                        <option selected>Choose...</option>
-                                                        <option>...</option>
+                                                    <select id="brand" className="form-control" onChange={handleChangeBrand}>
+                                                        <option value={''}>Choose...</option>
+                                                        {brands.map((brand) => (
+                                                            <option key={brand.brand_id} value={brand.brand_id}>{brand.brand_name}</option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                             </div>
@@ -137,16 +181,22 @@ const AddProduct = () => {
                                                 </div>
                                                 <div className="form-group col-md-4">
                                                     <label htmlFor="sku">SKU</label>
-                                                    <input type="text" className="form-control" id="sku" placeholder='Enter SKU' />
+                                                    <input type="text" className="form-control" id="sku" placeholder='Enter SKU' onChange={(e) => {
+                                                        setSku(e.target.value);
+                                                    }} />
                                                 </div>
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="description">Description</label>
-                                                <textarea className="form-control" id="description" rows="3" placeholder='Enter product description...'></textarea>
+                                                <textarea className="form-control" id="description" rows="3" placeholder='Enter product description...' onChange={(e) => {
+                                                    setDescription(e.target.value);
+                                                }}></textarea>
                                             </div>                                        
                                         </div>
                                         <div className="card-footer">
-                                            <button type="submit" className="btn btn-primary">Submit</button>
+                                            <button type="submit" className="btn btn-primary" disabled={loading}>
+                                                {loading ? 'Loading...' : 'Submit'}
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

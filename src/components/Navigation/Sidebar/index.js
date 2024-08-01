@@ -15,14 +15,12 @@ const Sidebar = () => {
   return (
     <ul className={toggled ? 'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled' : 'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion'} id="accordionSidebar">
       {/* <!-- Sidebar - Brand --> */}
-      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+      <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/dashboard">
         <div className="sidebar-brand-icon">
           <i className="fas fa-store"></i>
         </div>
-        <div className="sidebar-brand-text mx-3">
-          MY STORE
-        </div>
-      </a>
+        <div className="sidebar-brand-text mx-3">PStore</div>
+      </Link>
 
       {/* <!-- Divider --> */}
       <hr className="sidebar-divider my-0" />
