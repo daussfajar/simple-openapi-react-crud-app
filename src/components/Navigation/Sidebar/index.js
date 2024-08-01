@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,23 +26,24 @@ const Sidebar = () => {
       {/* <!-- Divider --> */}
       <hr className="sidebar-divider my-0" />
 
-      {/* <!-- Nav Item - Dashboard --> */}
       <li className="nav-item">
         <Link className="nav-link" to="/dashboard">
           <i className="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </Link>
       </li>
-
-      {/* <!-- Divider --> */}
       <hr className="sidebar-divider" />
-
-      {/* <!-- Heading --> */}
       <div className="sidebar-heading">
-        Interface
+        Navigation
       </div>
-
-      {/* <!-- Nav Item - Pages Collapse Menu --> */}
+      <li className="nav-item">
+        <Link className="nav-link" to="/brand">
+          <i className="fas fa-fw fa-tags"></i>
+          <span>
+            Brands
+          </span>
+        </Link>
+      </li>
       <li className="nav-item">
         <a className='nav-link collapsed' href="#" data-toggle="collapse" data-target="#collapseTwo" aria-controls="collapseTwo">
           <i className="fas fa-fw fa-store"></i>

@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard';
 import Product from './pages/Product';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
+import Brand from './pages/Brand';
+import ProductCategories from './pages/ProductCategories';
 
 const MainRoutes = () => {
     return (
@@ -44,6 +46,22 @@ const MainRoutes = () => {
                     element={
                         <ProtectedRoute>
                             <EditProduct />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/brand"
+                    element={
+                        <ProtectedRoute>
+                            <Brand />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/product-categories"
+                    element={
+                        <ProtectedRoute>
+                            <ProductCategories />
                         </ProtectedRoute>
                     }
                 />
