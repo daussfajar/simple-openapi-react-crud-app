@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { Link } from 'react-router-dom';
 import Sidebar from '../components/Navigation/Sidebar';
 import Topbar from '../components/Navigation/Topbar';
 
@@ -11,7 +11,7 @@ import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
 import "datatables.net-bs4/js/dataTables.bootstrap4.min.js";
 
 // services
-import fetchBrands from "../services/BrandService";
+import {fetchBrands} from "../services/BrandService";
 
 const Brand = () => {
     const [brands, setBrands] = useState([]);
@@ -56,13 +56,20 @@ const Brand = () => {
                                             <h6 className="m-0 font-weight-bold text-primary">Brand List</h6>
                                         </div>
                                         <div className="card-body">
-                                            <div className="table-responsive">
+                                            <div className="float-right">
+                                                <Link className="btn btn-sm btn-success" to="/brand/add">
+                                                    <i className="fas fa-fw fa-plus"></i>
+                                                    <span>Add Brand</span>
+                                                </Link>
+                                            </div>
+                                            <div className="table-responsive mt-5">
                                                 <table ref={tableRef} className="table table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th width="50" className="text-center">No</th>
                                                             <th className="text-left">Brand</th>
                                                             <th className="text-left">Description</th>
+                                                            <th className="text-center">Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -71,6 +78,14 @@ const Brand = () => {
                                                                 <td className="text-center">{index + 1}</td>
                                                                 <td className="text-left">{brand.brand_name}</td>
                                                                 <td className="text-left">{brand.brand_description}</td>
+                                                                <td className="text-center">
+                                                                    <Link to={`/brand/edit/${brand.brand_id}`} className="btn btn-sm btn-warning">
+                                                                        <i className="fas fa-fw fa-edit"></i>
+                                                                    </Link>
+                                                                    <button className="btn btn-sm btn-danger ml-2">
+                                                                        <i className="fas fa-fw fa-trash"></i>
+                                                                    </button>
+                                                                </td>
                                                             </tr>
                                                         ))}
                                                     </tbody>

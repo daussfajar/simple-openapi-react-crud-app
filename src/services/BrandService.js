@@ -10,4 +10,17 @@ const fetchBrands = async () => {
     }
 }
 
-export default fetchBrands;
+const addBrands = async (data) => {
+    try {
+        const response = await axiosInstance.post(`brands`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error adding brand:", error);
+        return {
+            success: false,
+            message: "Error adding brand"
+        };
+    }
+}
+
+export { fetchBrands, addBrands };
