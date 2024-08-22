@@ -11,6 +11,7 @@ import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 import Brand from './pages/Brand';
 import AddBrand from './pages/AddBrand';
+import EditBrand from './pages/EditBrand';
 import ProductCategories from './pages/ProductCategories';
 
 const MainRoutes = () => {
@@ -55,6 +56,14 @@ const MainRoutes = () => {
                     element={
                         <ProtectedRoute>
                             <Brand />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/brand/edit/:id"
+                    element={
+                        <ProtectedRoute>
+                            <EditBrand />
                         </ProtectedRoute>
                     }
                 />

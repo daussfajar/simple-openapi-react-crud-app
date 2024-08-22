@@ -10,6 +10,16 @@ const fetchBrands = async () => {
     }
 }
 
+const fetchBrandsById = async (id) => {
+    try {
+        const response = await axiosInstance.get(`brands/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching brands:", error);
+        return null;
+    }
+}
+
 const addBrands = async (data) => {
     try {
         const response = await axiosInstance.post(`brands`, data);
@@ -23,4 +33,17 @@ const addBrands = async (data) => {
     }
 }
 
-export { fetchBrands, addBrands };
+const editBrands = async (id, data) => {
+    try {
+        const response = await axiosInstance.put(`brands/${id}`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error editing brand:", error);
+        return {
+            success: false,
+            message: "Error editing brand"
+        };
+    }
+}
+
+export { fetchBrands, fetchBrandsById, addBrands, editBrands };
